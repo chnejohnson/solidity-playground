@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.7.0;
 
-contract Greeter {
+contract GreeterV2 {
     string greeting;
 
     // constructor(string memory _greeting) {
@@ -14,5 +14,9 @@ contract Greeter {
 
     function setGreeting(string memory _greeting) public {
         greeting = _greeting;
+    }
+
+    function getVersion() public pure returns (string memory) {
+        return "version 2";
     }
 }

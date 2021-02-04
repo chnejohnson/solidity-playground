@@ -9,7 +9,7 @@ let addrs;
 // `beforeEach` will run before each `it(...)`
 beforeEach(async function () {
   const Greeter = await ethers.getContractFactory("Greeter");
-  greeter = await Greeter.deploy("Hello, world!");
+  greeter = await Greeter.deploy();
   await greeter.deployed();
 
   [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
@@ -17,7 +17,7 @@ beforeEach(async function () {
 
 describe("Deployment", () => {
   it("Should return initial setting of greeter", async function () {
-    expect(await greeter.greet()).to.equal("Hello, world!");
+    expect(await greeter.greet()).to.equal("");
     expect(await greeter.signer.address).to.equal(owner.address);
   });
 });

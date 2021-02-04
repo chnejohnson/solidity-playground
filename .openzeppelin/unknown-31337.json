@@ -1,0 +1,47 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "0a932a2eedfb045ac0cc1e154758fcf426a20aeac6d3589b308daffeea855cba": {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "txHash": "0xfff775d6d230bbbd4d447be7fe73d27f21a9e8c8700f39c343cf1fdb61d90694",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Greeter",
+            "label": "greeting",
+            "type": "t_string_storage",
+            "src": "contracts/Greeter.sol:5"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    },
+    "b35b3f24af5f9b36ab2140062b105fef54cbb6e315ef99369517c1e989e62525": {
+      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "txHash": "0x8764dc5052225f60688a7443404bbfa30be14ffd408ad8da0353fd35d48d3704",
+      "layout": {
+        "storage": [
+          {
+            "contract": "GreeterV2",
+            "label": "greeting",
+            "type": "t_string_storage",
+            "src": "contracts/GreeterV2.sol:5"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "txHash": "0x52c9be0ab70f72512f49bb48732a9065e7375148954544397ec32cd4022ff196"
+  }
+}
