@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+import { ethers, upgrades } from "hardhat";
 
 let Greeter;
 let greeter;
