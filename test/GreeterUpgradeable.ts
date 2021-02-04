@@ -1,10 +1,11 @@
-const { expect } = require("chai");
+import { expect } from "chai";
+import { Contract, ContractFactory } from "ethers";
 import { ethers, upgrades } from "hardhat";
 
-let Greeter;
-let greeter;
-let GreeterV2;
-let greeterV2;
+let Greeter: ContractFactory;
+let greeter: Contract;
+let GreeterV2: ContractFactory;
+let greeterV2: Contract;
 
 beforeEach(async function () {
   Greeter = await ethers.getContractFactory("Greeter");
@@ -24,9 +25,8 @@ describe("Upgradeable", function () {
   beforeEach(async () => {
     greeterV2 = await upgrades.upgradeProxy(greeter.address, GreeterV2);
   });
-  it("Should remain storage of version 1", async function () {
-    // upgrade to version 2
 
+  it("Should remain storage of version 1", async function () {
     expect(await greeterV2.greet()).to.equal("version 1");
   });
 
