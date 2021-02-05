@@ -4,6 +4,7 @@ import { Contract, ContractFactory } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { getBalance } from "../../utils/ether";
 
+// 本測試主要用到這四份合約
 let Proxy: ContractFactory;
 let BaseWallet: ContractFactory;
 let VersionManager: ContractFactory;
@@ -23,6 +24,7 @@ let addr1: SignerWithAddress;
 let addr2: SignerWithAddress;
 let addrs: SignerWithAddress[];
 
+// 部屬 VersionManager 的函式，作為測試用 module
 async function deployTestModule(): Promise<Contract> {
   versionManager = await VersionManager.deploy(
     moduleRegistry.address,
@@ -42,9 +44,12 @@ before(async () => {
   VersionManager = await ethers.getContractFactory("VersionManager");
   Proxy = await ethers.getContractFactory("Proxy");
 
+  // 部屬 moduleRegistry 和 baseWallet
+  // 實務上，baseWallet 會由 WalletFactory 去部屬
   moduleRegistry = await ModuleRegistry.deploy();
   baseWallet = await BaseWallet.deploy();
 
+  // 建立三個 module 都是 VersionManager
   module1 = await deployTestModule();
   module2 = await deployTestModule();
   module3 = await deployTestModule();
@@ -54,6 +59,7 @@ before(async () => {
 
 beforeEach(async () => {
   // 部屬 Proxy 合約
+  // 實務上是由 WalletFactory 去部屬
   proxy = await Proxy.deploy(baseWallet.address);
 
   // 同 Proxy 合約的地址，但可使用 BaseWallet 合約的函式
