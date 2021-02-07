@@ -40,9 +40,13 @@ async function deployTestModule(): Promise<Contract> {
 
 before(async () => {
   ModuleRegistry = await ethers.getContractFactory("ModuleRegistry");
-  BaseWallet = await ethers.getContractFactory("BaseWallet");
-  VersionManager = await ethers.getContractFactory("VersionManager");
-  Proxy = await ethers.getContractFactory("Proxy");
+  BaseWallet = await ethers.getContractFactory(
+    "contracts/argent/BaseWallet.sol:BaseWallet"
+  );
+  VersionManager = await ethers.getContractFactory(
+    "contracts/argent/VersionManager.sol:VersionManager"
+  );
+  Proxy = await ethers.getContractFactory("contracts/argent/Proxy.sol:Proxy");
 
   // 部屬 moduleRegistry 和 baseWallet
   // 實務上，baseWallet 會由 WalletFactory 去部屬

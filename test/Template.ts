@@ -4,6 +4,7 @@ import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 
 let Test: ContractFactory;
+
 let test: Contract;
 
 let owner: SignerWithAddress;
@@ -21,5 +22,5 @@ beforeEach(async function () {
 });
 
 describe("Test", () => {
-  it("Should test", async function () {});
+  it("should test", async () => {});
 });

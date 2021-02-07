@@ -22,13 +22,6 @@ contract WalletFactory {
     ) external returns (uint256) {
         Proxy proxy = new Proxy(walletImplementation);
         address payable wallet = address(proxy);
-
-        // console.log("walletImplementaion", walletImplementation);
-        // console.log("_owner: ", _owner);
-        // console.log("wallet: ", wallet);
-
-        // BaseWallet wallet = new BaseWallet();
-
         configureWallet(BaseWallet(wallet), _owner, _versionManager, _version);
     }
 
@@ -44,13 +37,11 @@ contract WalletFactory {
 
         _wallet.init(_owner, extendedModules);
 
-        // IVersionManager(_versionManager).upgradeWallet(
-        //     address(_wallet),
-        //     _version
-        // );
+        IVersionManager(_versionManager).upgradeWallet(
+            address(_wallet),
+            _version
+        );
 
         emit WalletCreated(address(_wallet));
-
-        return _version;
     }
 }

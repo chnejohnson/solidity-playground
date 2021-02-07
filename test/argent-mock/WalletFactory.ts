@@ -11,15 +11,14 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-wit
 let WalletFactory: ContractFactory;
 let VersionManager: ContractFactory;
 let BaseWallet: ContractFactory;
-let Proxy: ContractFactory;
 
 let walletFactory: Contract;
 let versionManager: Contract;
 let wallet: Contract;
-let proxy: Contract;
+let implementation: Contract;
 
 let owner: SignerWithAddress;
-let walletImplementation: SignerWithAddress; // 部屬 WalletFactory 時設定
+let addr1: SignerWithAddress; // 部屬 WalletFactory 時設定
 let walletOwner: SignerWithAddress; // createWallet 時的 owner 參數
 let addrs: SignerWithAddress[];
 
@@ -32,52 +31,39 @@ before(async () => {
   BaseWallet = await ethers.getContractFactory(
     "contracts/argent-mock/BaseWallet.sol:BaseWallet"
   );
+  implementation = await BaseWallet.deploy();
 
-  Proxy = await ethers.getContractFactory(
-    "contracts/argent-mock/Proxy.sol:Proxy"
-  );
-
-  [
-    owner,
-    walletImplementation,
-    walletOwner,
-    ...addrs
-  ] = await ethers.getSigners();
+  [owner, addr1, walletOwner, ...addrs] = await ethers.getSigners();
 });
 
 beforeEach(async function () {
-  walletFactory = await WalletFactory.deploy(walletImplementation.address);
+  walletFactory = await WalletFactory.deploy(implementation.address);
   versionManager = await VersionManager.deploy();
 });
 
 describe("Create wallet", () => {
-  it("should create a wallet at owner address", async () => {
+  beforeEach(async () => {
     const tx: ContractTransaction = await walletFactory.createWallet(
       walletOwner.address,
       versionManager.address,
       1
     );
-    console.log("walletOwner address", walletOwner.address);
 
+    // 取得 baseWallet 地址
     const txReceipt: ContractReceipt = await tx.wait();
-
     let walletAddr: string = "";
-
-    // 找出 WalletCreated 事件的參數
     if (txReceipt.events && txReceipt.events[0].args) {
       walletAddr = txReceipt.events[0].args[0];
     }
 
-    // wallet = await ethers.getContractAt(
-    //   "contracts/argent-mock/IWallet.sol:IWallet",
-    //   walletAddr
-    // );
+    wallet = BaseWallet.attach(walletAddr);
+  });
 
-    proxy = Proxy.attach(walletAddr);
-    wallet = BaseWallet.attach(proxy.address);
-
-    console.log("wallet address", wallet.address);
-
+  it("should create a wallet at owner address", async () => {
     expect(await wallet.owner()).to.equal(walletOwner.address);
+  });
+
+  it("should be version 1 of the wallet", async () => {
+    expect(await versionManager.walletVersions(wallet.address)).to.equal(1);
   });
 });

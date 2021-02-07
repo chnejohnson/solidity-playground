@@ -2,10 +2,11 @@
 pragma solidity ^0.7.0;
 
 import "./IWallet.sol";
+import "hardhat/console.sol";
 
 contract BaseWallet is IWallet {
     address public implementation;
-    address public override owner = address(0);
+    address public override owner;
     uint256 public override modules;
     mapping(address => bool) public override authorised;
 
