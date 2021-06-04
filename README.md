@@ -1,4 +1,4 @@
-# Notes
+# Solidity Playground
 
 ### Initializable
 - 引入 @openzeppelin/contracts-upgradeable 並測試 initializer 的功能
